@@ -1,0 +1,44 @@
+
+
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.inputSearch {
+    width: 285px;
+    height: 20px;
+    border-radius: 5px;
+    padding: 5px;
+    outline: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    background-color: var(--primary-white-color);
+    margin: 14px auto;
+}
+
+.btn {
+    width: 120px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background-color: var(--primary-grey-color);
+    color: var(--primary-white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    transition: background-color 300ms cubic-bezier(0.3, 0.1, 0.2, 0.3);
+}
+
+.btn:hover,
+.btn:focus {
+    box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5), inset 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+    transition: background-color 300ms cubic-bezier(0.3, 0.1, 0.2, 0.3);
+    color: rgb(25, 241, 25);
+}

@@ -41,6 +41,11 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+    
+  }
+
+  li {
+    list-style: none;
   }
   
   img {
@@ -55,6 +60,10 @@
     padding: 10px;
     text-align: center;
   }
+
+    header {
+      background: teal;
+    }
   
   @media (prefers-color-scheme: light) {
     :root {
