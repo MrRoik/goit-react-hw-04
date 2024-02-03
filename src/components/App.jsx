@@ -9,39 +9,13 @@ import { fetchPictures } from '../api';
 import { nanoid } from 'nanoid';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
 
-/*import React from 'react';
-import Modal from 'react-modal';
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};*/
-
 export const App = () => {
   const [pictures, setPictures] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-
-  /*let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const afterOpenModal = () => {
-    subtitle.style.color = '#f00';
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };*/
+  const [visualBtn, setVisualBtn] = useState(false);
 
   const searchPictures = async newQuery => {
     setQuery(`${nanoid()}/${newQuery}`);
@@ -60,8 +34,9 @@ export const App = () => {
       try {
         setError(false);
         setLoading(true);
-        const fetchedData = await fetchPictures(query.split('/')[1], page);
-        setPictures(prevPictures => [...prevPictures, ...fetchedData]);
+        const { results, total_pages } = await fetchPictures(query.split('/')[1], page);
+        setPictures(prevPictures => [...prevPictures, ...results]);
+        setVisualBtn(total_pages !== page);
       } catch (error) {
         setError(true);
       } finally {
@@ -79,7 +54,7 @@ export const App = () => {
       {error && <ErrorMessage />}
       {pictures.length > 0 && <ImageGallery items={pictures} />}
       {loading && <Loader />}
-      {pictures.length > 0 && !loading && <LoadMoreBtn clickBtn={handleLoadMore} />}
+      {visualBtn && <LoadMoreBtn clickBtn={handleLoadMore} />}
       <Toaster position="bottom-center" />
     </div>
   );

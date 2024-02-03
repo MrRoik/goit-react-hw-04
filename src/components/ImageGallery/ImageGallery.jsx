@@ -6,7 +6,11 @@ export const ImageGallery = ({ items }) => {
     <ul className={css.itemImageCard}>
       {items.map(item => (
         <li key={item.id}>
-          <ImageCard item={item} />
+          <ImageCard
+            picSmall={item.urls.small}
+            description={item.alt_description}
+            picRegular={item.urls.regular}
+          />
         </li>
       ))}
     </ul>

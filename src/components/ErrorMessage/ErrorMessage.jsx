@@ -1,7 +1,12 @@
+import { BsEmojiDizzyFill } from 'react-icons/bs';
+import css from './ErrorMessage.module.css';
 export const ErrorMessage = () => {
   return (
     <>
-      <b>Crap, reload the page!</b>
+      <h3 className={css.textError}>Oh, reload the page!</h3>
+      <p>
+        <BsEmojiDizzyFill className={css.iconError} size="140" />
+      </p>
     </>
   );
 };
