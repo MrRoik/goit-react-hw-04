@@ -16,12 +16,13 @@ export const App = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [visualBtn, setVisualBtn] = useState(false);
-  const [visualMessage, setVisualMessage] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const searchPictures = async newQuery => {
     setQuery(`${nanoid()}/${newQuery}`);
     setPage(1);
     setPictures([]);
+    setIsEmpty(false);
   };
 
   const handleLoadMore = () => {
@@ -36,9 +37,12 @@ export const App = () => {
         setError(false);
         setLoading(true);
         const { results, total_pages } = await fetchPictures(query.split('/')[1], page);
+        if (results.length === 0) {
+          setIsEmpty(true);
+          return;
+        }
         setPictures(prevPictures => [...prevPictures, ...results]);
         setVisualBtn(total_pages !== page);
-        setVisualMessage(true);
       } catch (error) {
         setError(true);
       } finally {
@@ -54,11 +58,8 @@ export const App = () => {
         <SearchBar onSearch={searchPictures} />
       </header>
       {error && <ErrorMessage />}
-      {pictures.length > 0 ? (
-        <ImageGallery items={pictures} />
-      ) : (
-        visualMessage && <MessageNotFound />
-      )}
+      {pictures.length > 0 && <ImageGallery items={pictures} />}
+      {isEmpty && <MessageNotFound />}
       {loading && <Loader />}
       {visualBtn && <LoadMoreBtn clickBtn={handleLoadMore} />}
       <Toaster position="bottom-center" />
