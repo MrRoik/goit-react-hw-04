@@ -3,7 +3,7 @@ import css from './App.module.css';
 import { SearchBar } from './SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-import { ErrorMessage } from './ErrorMessage/ErrorMessage';
+import { ErrorMessage, MessageNotFound } from './ErrorMessage/ErrorMessage';
 import { Loader } from './Loader/Loader';
 import { fetchPictures } from '../api';
 import { nanoid } from 'nanoid';
@@ -16,6 +16,7 @@ export const App = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [visualBtn, setVisualBtn] = useState(false);
+  const [visualMessage, setVisualMessage] = useState(false);
 
   const searchPictures = async newQuery => {
     setQuery(`${nanoid()}/${newQuery}`);
@@ -37,6 +38,7 @@ export const App = () => {
         const { results, total_pages } = await fetchPictures(query.split('/')[1], page);
         setPictures(prevPictures => [...prevPictures, ...results]);
         setVisualBtn(total_pages !== page);
+        setVisualMessage(true);
       } catch (error) {
         setError(true);
       } finally {
@@ -52,7 +54,11 @@ export const App = () => {
         <SearchBar onSearch={searchPictures} />
       </header>
       {error && <ErrorMessage />}
-      {pictures.length > 0 && <ImageGallery items={pictures} />}
+      {pictures.length > 0 ? (
+        <ImageGallery items={pictures} />
+      ) : (
+        visualMessage && <MessageNotFound />
+      )}
       {loading && <Loader />}
       {visualBtn && <LoadMoreBtn clickBtn={handleLoadMore} />}
       <Toaster position="bottom-center" />
